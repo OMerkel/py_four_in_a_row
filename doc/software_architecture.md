@@ -3,7 +3,10 @@
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 [![Pytest](https://img.shields.io/badge/tested%20with-pytest-blue.svg)](https://docs.pytest.org/)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://pypi.org/project/pytest-cov/)
 [![UV](https://img.shields.io/badge/managed%20by-uv-purple.svg)](https://github.com/astral-sh/uv)
+
+**Version:** 1.0.0  **Author:** OMerkel  **Last Update:** October 18, 2025
 
 ## Quick Start
 
@@ -17,28 +20,34 @@
 ...$ uv run ./py_four_in_a_row.py
 ```
 
+----
+
 ## Directory Structure
 
 ```text
 py_four_in_a_row/
-├── [py_four_in_a_row.py](../py_four_in_a_row.py)         # Main entry point
-├── [pyproject.toml](../pyproject.toml)                   # Project configuration
-├── [requirements.txt](../requirements.txt)               # Python dependencies
-├── [AUTHORS](../AUTHORS)                                 # Contributors with non-trivial changes
-├── [LICENSE.txt](../LICENSE.txt)                         # MIT License text
-├── [README.md](../README.md)                             # Project overview
+├── py_four_in_a_row.py            # Main entry point
+├── pyproject.toml                 # Project configuration
+├── requirements.txt               # Python dependencies
+├── AUTHORS                        # Contributors with non-trivial changes
+├── CHANGELOG.md                   # Project Change Log
+├── LICENSE.txt                    # MIT License text
+├── README.md                      # Project overview
 ├── doc/
-│   └── [software_architecture.md](software_architecture.md)    # Architecture documentation
+│   └── software_architecture.md   # Architecture documentation
 ├── engines/
-│   ├── [abstract_player.py](../engines/abstract_player.py)        # Abstract player interface
-│   ├── [ai_player_uct_mcts.py](../engines/ai_player_uct_mcts.py)  # AI player (UCT MCTS)
-│   └── [human_player.py](../engines/human_player.py)              # Human player implementation
+│   ├── abstract_player.py         # Abstract player interface
+│   ├── ai_player_random.py        # AI player (Random Choice)
+│   ├── ai_player_uct_mcts.py      # AI player (UCT MCTS)
+│   └── human_player.py            # Human player implementation
 ├── modules/
-│   └── [board.py](../modules/board.py)                   # Board logic
+│   └── board.py                   # Board logic
 └── test/
-    ├── [test_board.py](../test/test_board.py)            # Board unit tests
-    ├── [test_human_player.py](../test/test_human_player.py)         # HumanPlayer unit tests
-    └── [test_py_four_in_a_row.py](../test/test_py_four_in_a_row.py) # Main game tests 
+    ├── test_ai_player_random.py   # Tests for AI Player Random
+    ├── test_ai_player_uct_mcts.py # Tests for AI Player UCT MCTS
+    ├── test_board.py              # Board unit tests
+    ├── test_human_player.py       # HumanPlayer unit tests
+    └── test_py_four_in_a_row.py   # Main game tests 
 ```
 
 ----

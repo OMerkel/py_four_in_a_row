@@ -9,6 +9,10 @@ from engines.abstract_player import AbstractPlayer
 class HumanPlayer(AbstractPlayer):
     """Human player for the Four in a Row game."""
 
+    command = {
+        100: "dump history",
+    }
+
     def __init__(self, name="Human", symbol="O", player_id: int = 1):
         """Initialize the human player.
         Args:
@@ -24,11 +28,14 @@ class HumanPlayer(AbstractPlayer):
             int: The selected column index for the move.
         """
         move = -1
-        while move not in board.get_legal_moves():
+        while (move not in board.get_legal_moves()) and \
+              (move not in self.command):
             try:
-                move = int(input(f"{self.name_}, "
-                                 f"enter your move "
-                                 f"(0-{board.cols_-1}): "))
+                move_input = input(
+                    f"{self.name_} ({self.symbol_}), "
+                    f"enter your move (0-{board.cols_-1}): "
+                )
+                move = int(move_input)
             except ValueError:
                 continue
         return move

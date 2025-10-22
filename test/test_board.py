@@ -189,6 +189,51 @@ class TestBoard(unittest.TestCase):
         expected += "\nCurrent player: Player 1 (1, X)"
         assert repr(board) == expected
 
+    def test_board_repr_not_game_over(self):
+        """Test the string representation of the board when
+        the game is not over.
+
+        Given a Board instance with no winner
+        When repr is called
+        Then it should include the current player information
+        """
+        board = Board(current_player=1)
+        board.players = [
+            type("Player", (), {"name_": "Player 1", "symbol_": "X"}),
+            type("Player", (), {"name_": "Player 2", "symbol_": "O"})
+        ]
+        expected = "\n".join([". | . | . | . | . | . | ."] * 6)
+        expected += "\n--+---+---+---+---+---+--\n"
+        expected += "0 | 1 | 2 | 3 | 4 | 5 | 6"
+        expected += "\nCurrent player: Player 1 (1, X)"
+        assert repr(board) == expected
+
+    def test_board_repr_game_over(self):
+        """Test the string representation of the board when the game is over.
+
+        Given a Board instance with a winner
+        When repr is called
+        Then it should not include the current player information
+        """
+        board = Board(current_player=1)
+        board.players = [
+            type("Player", (), {"name_": "Player 1", "symbol_": "X"}),
+            type("Player", (), {"name_": "Player 2", "symbol_": "O"})
+        ]
+        # Simulate a winning condition for player 1
+        for col in range(4):
+            board.play_move(col)  # Player 1
+            if col < 3:
+                board.play_move(col)  # Player 2
+        expected = "\n".join([". | . | . | . | . | . | ."] * 4 +
+                             ["O | O | O | . | . | . | ."] +
+                             ["X | X | X | X | . | . | ."])
+        expected += "\n--+---+---+---+---+---+--\n"
+        expected += "0 | 1 | 2 | 3 | 4 | 5 | 6\n"
+        expected += "Last move: {'row': 5, 'col': 3, 'player': 1}"
+        # print(repr(board))  # For debugging purposes
+        assert repr(board) == expected
+
     def test_board_repr_after_moves(self):
         """Test the string representation of the board after some moves.
 

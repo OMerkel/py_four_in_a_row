@@ -12,21 +12,32 @@ from modules.board import Board
 
 def setup_players() -> list[AbstractPlayer]:
     """Setup players for the game."""
-    player1_name: str = input("Enter name for Player 1: ") or "HAL9000"
+    robot_names = [
+        "HAL9000", "Dalek", "Ava", "Maria", "The Maschinenmensch",
+        "Bishop", "Ash", "EVE", "Gort", "Robbie", "Chappie",
+        "Sonny", "Dewey", "Huey", "Louie", "Ares",
+        "Gigolo Joe", "Marvin", "Dot Matrix", "Bender", "Optimus Prime",
+        "Megatron", "Johnny 5", "Roy Batty", "Pris", "Deckard",
+        "Iron Giant", "VIKI", "Sonny", "Gigantor",
+        "Maximilian", "Box", "Dot", "Twiki", "TARS", "CASE", "David",
+        "Mother", "Atlas", "Rosie"
+    ]
+    random.shuffle(robot_names)
+    player1_name: str = input("Enter name for Player 1: ")
     player1: AbstractPlayer = AiPlayerUctMcts(
-        name=player1_name, symbol="X",
-        simulations=400, player_id=1
-    ) if player1_name == "HAL9000" else HumanPlayer(
+        name=robot_names.pop(), symbol="X",
+        simulations=1750, player_id=1
+    ) if player1_name == "" else HumanPlayer(
         name=player1_name, symbol="X",
         player_id=1
     )
     player1.reset()
 
-    player2_name: str = input("Enter name for Player 2: ") or "Dalek"
+    player2_name: str = input("Enter name for Player 2: ")
     player2: AbstractPlayer = AiPlayerUctMcts(
-        name=player2_name, symbol="O",
-        simulations=400, player_id=2
-    ) if player2_name == "Dalek" else HumanPlayer(
+        name=robot_names.pop(), symbol="O",
+        simulations=1750, player_id=2
+    ) if player2_name == "" else HumanPlayer(
         name=player2_name, symbol="O",
         player_id=2
     )
@@ -34,11 +45,10 @@ def setup_players() -> list[AbstractPlayer]:
     return [player1, player2]
 
 
-def main() -> int:
-    """Main entry point for the py-four-in-a-row application."""
-    print("Hello from py-four-in-a-row!")
-    players = setup_players()
-    board = Board(current_player=1, players=players)
+def game_loop(setup=setup_players) -> tuple[int, list[AbstractPlayer]]:
+    """Main game loop for py-four-in-a-row."""
+    players: list[AbstractPlayer] = setup()
+    board: Board = Board(current_player=1, players=players)
     print(board)
 
     end_of_game: bool = False
@@ -46,12 +56,24 @@ def main() -> int:
         move: int = players[0].get_move(board) \
             if board.get_current_player() == 1 else \
             players[1].get_move(board)
-
+        if move not in board.get_legal_moves():
+            if move in HumanPlayer.command and move == 100:
+                print("\n".join(board.dump_history()))
+                continue
+            print(f"Illegal move: {move}. Try again.")
+            continue
         board.play_move(move)
         print(board)
         winner: int = board.check_winner()
         end_of_game = winner != 0 or board.is_full()
     print("Game over!")
+    return winner, players
+
+
+def main(game_entry_point=game_loop) -> int:
+    """Main entry point for the py-four-in-a-row application."""
+    print("Hello from py-four-in-a-row!")
+    winner, players = game_entry_point()
     if winner != 0:
         message = [
             "Congratulations!",

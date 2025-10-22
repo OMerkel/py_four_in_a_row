@@ -4,7 +4,7 @@
 Ai Player for py-four-in-a-row: A Python implementation of
 the classic Four in a Row game.
 This player uses UCT MCTS (Upper Confidence Bound applied to Trees -
-Monte Carlo Tree Search)to determine its moves.
+Monte Carlo Tree Search) to determine its moves.
 """
 import copy
 import math
@@ -154,8 +154,22 @@ class AiPlayerUctMcts(AbstractPlayer):
                 # Alternate the reward for each player as we move up the tree
                 result = 1 - result
 
+        # Print an overview of the visits for each move,
+        # sorted by visits (max to min)
+        sorted_children = sorted(root.children_, key=lambda c: c.visits_,
+                                 reverse=True)
+        print("Move visit counts (sorted): ", end="")
+        for child in sorted_children:
+            print(f"[move {child.move_}: {child.visits_}]", end=" ")
+        print()
+
+        # Print total amount of simulations
+        # total_visits = sum(child.visits_ for child in root.children_)
+        # print(f"Total simulations: {total_visits}")
+
         # Choose the move with the most visits
         best_child = max(root.children_, key=lambda c: c.visits_)
+
         print("Done")
         return best_child.move_
 
