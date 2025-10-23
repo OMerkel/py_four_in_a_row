@@ -158,6 +158,17 @@ class Board:
         """
         return self.current_player_
 
+    def dump_history(self):
+        """Dump the history of moves played."""
+        history_dump = []
+        for i, move in enumerate(self.history_):
+            player_name = self.players[move["player"] - 1].name_
+            history_dump.append(f"board.play_move({move['col']})  "
+                                f"# Move {i + 1}: Player "
+                                f"{player_name} played at "
+                                f"(row={move['row']}, col={move['col']})")
+        return history_dump
+
     def __repr__(self):
         """String representation of the board."""
         symbols = {0: ".",
@@ -177,5 +188,5 @@ class Board:
         return "\n".join(rows)
 
 
-if __name__ == "__main__":
-    print("This is the Board module.")  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
+    print("This is the Board module.")

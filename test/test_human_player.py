@@ -42,6 +42,8 @@ def test_human_player_init_custom():
     assert player.name_ == "Alice"
     assert player.symbol_ == "X"
     assert player.player_id_ == 2
+    player.set_player_id(3)
+    assert player.player_id_ == 3
 
 
 def test_get_most_likely_variant_returns_empty():
